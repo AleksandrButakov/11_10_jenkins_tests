@@ -20,7 +20,7 @@ public class RegistrationTests {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1900x1000";
+        Configuration.browserSize = "1920x1080";
         // адрес удаленного selenoid сервера, где user1 - login, 1234 - password, wd - webdriver
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
