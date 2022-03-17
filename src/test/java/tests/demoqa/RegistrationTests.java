@@ -16,22 +16,22 @@ public class RegistrationTests {
     static void setUp() {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
-
+        /* Jenkins не имеет графического интерфейса поэтому для тестирования web интерфейса необходимо
+           подключить selenoid
+         */
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
 
         Configuration.browserCapabilities = capabilities;
-
+        // адрес удаленного selenoid сервера, где user1 - login, 1234 - password, wd - webdriver
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
-
     }
 
     @Test
     void fillFormTest() {
         open("/automation-practice-form");
         $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-
         $("#firstName").setValue("333Alex");
         $("#lastName").setValue("Egorov");
         $("#userEmail").setValue("alex@egorov.com");
@@ -43,7 +43,7 @@ public class RegistrationTests {
         $("[aria-label$='July 30th, 2008']").click();
         $("#subjectsInput").setValue("Math").pressEnter();
         $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
+        // $("#uploadPicture").uploadFromClasspath("img/1.png");
         $("#currentAddress").setValue("Some address 1");
         $("#state").scrollTo().click();
         $("#stateCity-wrapper").$(byText("NCR")).click();
