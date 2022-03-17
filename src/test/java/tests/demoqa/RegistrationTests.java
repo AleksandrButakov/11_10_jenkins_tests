@@ -1,6 +1,9 @@
 package tests.demoqa;
 
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
@@ -9,12 +12,27 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class RegistrationTests {
 
+    @BeforeAll
+    static void setUp() {
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.browserSize = "1920x1080";
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", true);
+
+        Configuration.browserCapabilities = capabilities;
+
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+
+    }
+
     @Test
     void fillFormTest() {
         open("/automation-practice-form");
         $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
 
-        $("#firstName").setValue("Alex");
+        $("#firstName").setValue("333Alex");
         $("#lastName").setValue("Egorov");
         $("#userEmail").setValue("alex@egorov.com");
         $("#genterWrapper").$(byText("Other")).click();
@@ -25,7 +43,7 @@ public class RegistrationTests {
         $("[aria-label$='July 30th, 2008']").click();
         $("#subjectsInput").setValue("Math").pressEnter();
         $("#hobbiesWrapper").$(byText("Sports")).click();
-//        $("#uploadPicture").uploadFromClasspath("img/1.png");
+        $("#uploadPicture").uploadFromClasspath("img/1.png");
         $("#currentAddress").setValue("Some address 1");
         $("#state").scrollTo().click();
         $("#stateCity-wrapper").$(byText("NCR")).click();
