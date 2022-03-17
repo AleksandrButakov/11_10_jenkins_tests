@@ -1,6 +1,8 @@
 package tests.demoqa;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -14,18 +16,20 @@ public class RegistrationTests {
 
     @BeforeAll
     static void setUp() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
+        // адрес удаленного selenoid сервера, где user1 - login, 1234 - password, wd - webdriver
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+
         /* Jenkins не имеет графического интерфейса поэтому для тестирования web интерфейса необходимо
            подключить selenoid
          */
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
-
         Configuration.browserCapabilities = capabilities;
-        // адрес удаленного selenoid сервера, где user1 - login, 1234 - password, wd - webdriver
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
     }
 
     @Test
