@@ -11,8 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTests {
 
@@ -43,30 +42,54 @@ public class RegistrationTests {
     }
 
     @Test
-    void fillFormTest() {
+    void successPracticeFormTest() throws InterruptedException {
         open("/automation-practice-form");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        $("#firstName").setValue("333Alex");
-        $("#lastName").setValue("Egorov");
-        $("#userEmail").setValue("alex@egorov.com");
+        $(".main-header").shouldHave(text("Practice Form"));
+
+        $("#firstName").setValue("Ivan");
+        $("#lastName").setValue("Petrov");
+        $("#userEmail").setValue("ivan@bk.ru");
         $("#genterWrapper").$(byText("Other")).click();
-        $("#userNumber").setValue("1231231230");
+        $("#userNumber").setValue("4955552244");
+
+        // working with the calendar
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("July");
-        $(".react-datepicker__year-select").selectOption("2008");
-        $("[aria-label$='July 30th, 2008']").click();
-        $("#subjectsInput").setValue("Math").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        // $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#currentAddress").setValue("Some address 1");
-        $("#state").scrollTo().click();
-        $("#stateCity-wrapper").$(byText("NCR")).click();
+        // <option value="1990">1990</option>
+        $(".react-datepicker__year-select").selectOptionByValue("1990");
+        // <option value="6">July</option>
+        $(".react-datepicker__month-select").selectOptionByValue("6");
+        $(".react-datepicker__month").$(byText("16")).click();
+
+        $("#subjectsInput").setValue("En").pressEnter();
+        $(".practice-form-wrapper").$(byText("Reading")).click();
+        // $("#uploadPicture").uploadFromClasspath("img.png");
+        $("#currentAddress").setValue("Russia");
+
+
+        executeJavaScript("scroll(0,250)");
+        $("#state").click();
+        $(byText("NCR")).click();
         $("#city").click();
-        $("#stateCity-wrapper").$(byText("Delhi")).click();
+        $(byText("Noida")).click();
+
         $("#submit").click();
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        $(".table-responsive").$(byText("Student Name"))
-                .parent().shouldHave(text("Alex Egorov"));
+
+        // checking the correctness of the entered value
+        $(".table-responsive").shouldHave(
+                text("Ivan"),
+                text("Petrov"),
+                text("ivan@bk.ru"),
+                text("Other"),
+                text("4955552244"),
+                text("16 July,1990"),
+                text("En"),
+                text("Reading"),
+                text("img.png"),
+                text("Russia"),
+                text("NCR"),
+                text("Noida")
+        );
     }
+
 
 }
