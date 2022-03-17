@@ -20,7 +20,7 @@ public class RegistrationTests {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
+        Configuration.browserSize = "1900x1000";
         // адрес удаленного selenoid сервера, где user1 - login, 1234 - password, wd - webdriver
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
@@ -70,7 +70,7 @@ public class RegistrationTests {
         $("#state").click();
         $(byText("NCR")).click();
         $("#city").click();
-        $(byText("Noida")).click();
+        $(byText("Delhi")).click();
 
         $("#submit").click();
 
@@ -84,10 +84,10 @@ public class RegistrationTests {
                 text("16 July,1990"),
                 text("En"),
                 text("Reading"),
-                text("img.png"),
+                //text("img.png"),
                 text("Russia"),
                 text("NCR"),
-                text("Noida")
+                text("Delhi")
         );
     }
 
